@@ -1,0 +1,8 @@
+.env
+source/node_modules
+node_modules
+.next
+.idea
+cloud_formation.yml
+.vscode
+.idea

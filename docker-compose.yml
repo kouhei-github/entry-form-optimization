@@ -1,0 +1,39 @@
+version: '3'
+services:
+  nginx: # コンテナネーム(注1)
+    image: nginx:latest
+    ports:
+      - ${NGINX_PORT}  # EC2が公開しているポート番号:コンテナのポート番号
+    volumes:
+      - ./source/.next/server/pages:/usr/share/nginx/html #EC2内のパス:コンテナ内のパス
+
+  nextjs:
+    container_name: nikken-container
+    build:
+      context: .
+      dockerfile: ./container/node/Dockerfile
+    image: nikken-lp-image:1.0
+    tty: true
+    volumes:
+      - ./source:/var/www/application
+    ports:
+      - ${NODE_PORT}
+    command: ${NODE_COMMAND}
+    environment:
+      - WATCHPACK_POLLING=true
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: ${HTTP_PORTAL_DOMAIN}
+      STAGE: ${STAGE} # Don't use production until staging works
+      CUSTOM_NGINX_DOMAIN_TLD_CONFIG_BLOCK:
+        ${NGINX_CONFIG_SETTING}
+    volumes:
+      - https-portal-data:/var/lib/https-portal
+
+volumes:
+  https-portal-data: # Recommended, to avoid re-signing when upgrading HTTPS-PORTAL
