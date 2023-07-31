@@ -5,6 +5,7 @@
  */
 
 import React, {Dispatch, SetStateAction, useState} from 'react'
+import Image from 'next/image'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   fullWidth?: boolean;
@@ -40,7 +41,7 @@ const Container = (props: Props): JSX.Element => {
                 <div className="modal-content absolute top-[5%] bg-white h-[90%] inset-x-4 md:inset-x-[35px]  md:top-2 lg:inset-x-[100px] lg:top-2 w-11/12 md:max-w-[800px]  mx-auto rounded shadow-lg z-50 overflow-hidden">
             {/* {close button} */}
                 <div className="modal-close relative h-0 w-30 cursor-pointer flex flex-col items-center text-black text-sm z-50">
-                  <img className="absolute top-0 right-0 w-[50px] h-[50px] cursor-pointer" onClick={handleXClick} src={"/popup2.png"} alt=""/>
+                  <Image width={50} height={50} className="absolute top-0 right-0 cursor-pointer" onClick={handleXClick} src={"/popup2.png"} alt=""/>
                 </div>
                 {/* {close button} */}
 
